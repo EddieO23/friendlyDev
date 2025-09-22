@@ -1,4 +1,5 @@
 import type { Route } from './+types/index';
+import { useEffect } from 'react';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,5 +9,9 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  useEffect(() => {
+    console.log(window.scrollY);
+  }, []);
+
   return <section>My App</section>;
 }
