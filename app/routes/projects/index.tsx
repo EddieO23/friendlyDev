@@ -16,20 +16,33 @@ export async function loader({
 }
 
 const ProjectsPage = ({ loaderData }: Route.ComponentProps) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [currentPage, setCurrentPage] = useState(1);
+  const projectsPerPage = 6;
+
   const { projects } = loaderData as { projects: Project[] };
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // Get unqiue categories
+  const categories = [
+    'All',
+    ...new Set(projects.map((project) => project.category)),
+  ];
 
-  const projectsPerPage = 10;
+  // console.log(categories);
+  // Filter projects based on the category
+  const filteredProjects =
+    selectedCategory === 'All'
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   // Calculate total pages
-  const totalPages = Math.ceil(projects.length / projectsPerPage);
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
 
   // Get current pages projects
 
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = projects.slice(
+  const currentProjects = filteredProjects.slice(
     indexOfFirstProject,
     indexOfLastProject
   );
@@ -37,6 +50,24 @@ const ProjectsPage = ({ loaderData }: Route.ComponentProps) => {
   return (
     <>
       <h2 className='text-3xl text-white font-bold mb-8'>🚀 Projects</h2>
+      <div className='flex flex-wrap gap-2 mb-8'>
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => {
+              setSelectedCategory(category);
+              setCurrentPage(1);
+            }}
+            className={`px-3 py-1 rounded text-sm cursor-pointer ${
+              selectedCategory === category
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-700 text-gray-200'
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
       <div className='grid gap-6 sm:grid-cols-2'>
         {currentProjects.map((project) => (
           <ProjectCard project={project} key={project.id} />
