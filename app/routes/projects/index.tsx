@@ -1,10 +1,20 @@
+import { useState } from 'react';
 import type { Route } from './+types/index';
 import type { Project } from '~/types';
-import ProjectCard from '~/components/ProjectCard';
-import { useState } from 'react';
-import { index } from '@react-router/dev/routes';
+import { AnimatePresence, motion } from 'framer-motion';
 
+import ProjectCard from '~/components/ProjectCard';
 import Pagination from '~/components/Pagination';
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: 'The Friendly Dev | Projects' },
+    {
+      name: 'Custom website developmet.',
+      content: 'My website project portfolio',
+    },
+  ];
+}
 
 export async function loader({
   request,
@@ -68,11 +78,15 @@ const ProjectsPage = ({ loaderData }: Route.ComponentProps) => {
           </button>
         ))}
       </div>
-      <div className='grid gap-6 sm:grid-cols-2'>
-        {currentProjects.map((project) => (
-          <ProjectCard project={project} key={project.id} />
-        ))}
-      </div>
+      <AnimatePresence mode='wait'>
+        <motion.div layout className='grid gap-6 sm:grid-cols-2'>
+          {currentProjects.map((project) => (
+            <motion.div key={project.id} layout>
+              <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
