@@ -5,12 +5,43 @@ import type { PostMeta } from '~/types';
 export async function loader({ request, params }: Route.LoaderArgs) {
   const { slug } = params;
 
-  console.log('slug', slug);
-  return {};
+  const url = new URL('/posts-meta.json', request.url);
+
+  const res = await fetch(url.href);
+
+  if (!res.ok) throw new Error('Failed to fetch posts meta');
+
+  const index = await res.json();
+
+  const postMeta = index.find((post: PostMeta) => post.slug === slug);
+
+  if (!postMeta) throw new Response('Not Found', { status: 404 });
+
+  // console.log('slug', slug);
+
+  // Dynamicall import the raw markdown
+
+  const markdown = await import(`../../posts/${slug}.md?raw`);
+
+  return {
+    postMeta,
+    markdown: markdown.default,
+  };
 }
 
-const BlogDetailsPage = () => {
+type BlogPostDetailsPageProps = {
+  loaderData: {
+    postMeta: PostMeta;
+    markdown: string;
+  };
+};
+
+const BlogPostDetailsPage = ({ loaderData }: BlogPostDetailsPageProps) => {
+  const { postMeta, markdown } = loaderData;
+
+  console.log(postMeta, markdown);
+
   return <>BLOG</>;
 };
 
-export default BlogDetailsPage;
+export default BlogPostDetailsPage;

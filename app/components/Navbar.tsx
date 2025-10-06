@@ -69,7 +69,7 @@ const Navbar = () => {
 
       {/*Mobile Nav  */}
       {menuOpen && (
-        <div className='md:hidden bg-gray-800 border-t border-gray-700 px-6 py-4 space-y-2 space-x-4 text-center'>
+        <div className='md:hidden bg-gray-800 border-t border-gray-700 px-6 py-4 space-y-2 space-x-4 text-center text-white'>
           <NavLink
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) => (isActive ? active : base)}
