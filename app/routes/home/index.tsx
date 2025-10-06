@@ -25,7 +25,7 @@ export async function loader({
     postRes.json(),
   ]);
 
-  console.log(projects, posts);
+  // console.log(projects, posts);
 
   return { projects, posts };
 }
