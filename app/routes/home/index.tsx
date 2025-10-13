@@ -25,20 +25,21 @@ export async function loader({
     postRes.json(),
   ]);
 
-  // console.log(projects, posts);
+  console.log(projects, posts);
 
   return { projects, posts };
 }
 
 const HomePage = ({ loaderData }: Route.ComponentProps) => {
   const { projects, posts } = loaderData;
+
   // console.log( posts);
 
   return (
     <>
       <FeaturedProjects projects={projects} count={2} />
       <AboutPreview />
-      <LatestPost posts={posts} limit={3} />
+      <LatestPost posts={posts} limit={3} />mi
     </>
   );
 };
