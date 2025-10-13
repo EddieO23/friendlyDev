@@ -7,11 +7,12 @@ type LatestPostProps = {
 };
 
 const LatestPost = ({ posts, limit = 3 }: LatestPostProps) => {
-  const sorted = [...posts].sort((a: PostMeta, b: PostMeta) => {
+  
+  const sortedPosts = [...posts].sort((a: PostMeta, b: PostMeta) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 
-  const latest = sorted.slice(0, limit);
+  const latest = sortedPosts.slice(0, limit);
 
   return (
     <section
