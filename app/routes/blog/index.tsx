@@ -1,10 +1,5 @@
 import type { Route } from './+types/index';
-import type {
-  PostMeta,
-  StrapiResponse,
-  StrapiProject,
-  StrapiPost,
-} from '~/types';
+import type { Post, StrapiResponse, StrapiProject, StrapiPost } from '~/types';
 import { useState } from 'react';
 
 import PostCard from '~/components/PostCard';
@@ -13,7 +8,7 @@ import PostFilter from '~/components/PostFilter';
 
 export async function loader({
   request,
-}: Route.LoaderArgs): Promise<{ posts: PostMeta[] }> {
+}: Route.LoaderArgs): Promise<{ posts: Post[] }> {
   // const url = new URL('/posts-meta.json', request.url);
   // const res = await fetch(url.href);
 
